@@ -8,25 +8,26 @@
 // Declare variables and #defines and such
 #define vibPin A0
 #define weightPin A1
-#define doorPin D0
+#define doorPin 'D0'
 
 // Base Variables
+int val = 0;
 int door;
 int vibration;
 int checkWeight;
-int baseWeight = /* TBD */;
+int baseWeight = 0; // TBD
 
 // Functions
-int vibCheck;
-int weightCheck;
+//int vibCheck;
+//int weightCheck;
 
 
 // Startup function
 void setup()
 {
-	pinMode(vibPin, INPUT);
+    pinMode(vibPin, INPUT);
     pinMode(weightPin, INPUT);
-    pinMode(doorPin, INPUT);
+    pinMode(doorPin, INPUT_PULLUP);
 
     int door = 0;
 
@@ -36,16 +37,17 @@ void setup()
 // Loop function 
 void loop() {
 	// Door opens
-    if (digitalRead(doorPin) == LOW){
+    val = digitalRead(doorPin);
+    if (val == LOW){
         door++;
     }
     // Door closes after being opened (checked by 'door' variable set to 1 above)
-    else if (digitalRead(doorPin) == HIGH && door > 0){
+    else if (val == HIGH && door > 0){
     	door = 0;
     	weightCheck();
     }
 
-    while(weightCheck == 1){
+    while(weightCheck > 0){
         delay(180000); // 3 min delay
         vibCheck();
         if(vibCheck == 0){
@@ -53,7 +55,7 @@ void loop() {
             delay(60000);
             weightCheck();
         }
-        while(vibCheck == 1){
+        while(vibCheck > 0){
             delay(500);
             vibCheck();
         }
@@ -78,7 +80,7 @@ int vibCheck() {
     vibration = analogRead(vibPin);
     if (vibration > 0) // Threshhold TBD
     {
-        return 1
+        return 1;
     }
-    else return 0
+    else return 0;
 }
