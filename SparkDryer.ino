@@ -24,18 +24,17 @@ int weightCheck;
 // Startup function
 void setup()
 {
-	pinMode(A0, INPUT);
-    pinMode(A1, INPUT);
-    pinMode(D0, INPUT);
+	pinMode(vibPin, INPUT);
+    pinMode(weightPin, INPUT);
+    pinMode(doorPin, INPUT);
 
-    int door = 0
+    int door = 0;
 
     // Spark variable, function, event?
 }
 
 // Loop function 
-void loop()
-{
+void loop() {
 	// Door opens
     if (digitalRead(doorPin) == LOW){
         door++;
@@ -46,25 +45,26 @@ void loop()
     	weightCheck();
     }
 
-    if (weightCheck == 1) // Loaded
-    {
+    while(weightCheck == 1){
         delay(180000); // 3 min delay
         vibCheck();
+        if(vibCheck == 0){
+            // No-Start Alert
+            delay(60000);
+            weightCheck();
+        }
+        while(vibCheck == 1){
+            delay(500);
+            vibCheck();
+        }
+        // Done Alert
+        return;
     }
-    else return // Stop if not loaded
-
-    if (vibCheck == 1)
-    {
-        // loop vib check every 5 min
-    }
-    else
-    {
-        // Alert 
-    }
+    return;
 }
 
 // Weight check function, returns 1 or 0
-int weightCheck(){
+int weightCheck() {
     checkWeight = analogRead(weightPin);
     if (checkWeight > baseWeight)
     {
@@ -74,7 +74,7 @@ int weightCheck(){
 }
 
 // Vibration check function, returns 1 or 0
-int vibCheck(){
+int vibCheck() {
     vibration = analogRead(vibPin);
     if (vibration > 0) // Threshhold TBD
     {
