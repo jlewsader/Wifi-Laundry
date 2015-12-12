@@ -52,7 +52,7 @@ void loop() {
         vibCheck();
         if(vibCheck == 0){
             // No-Start Alert
-            delay(60000);
+            // delay(60000); //may not need
             weightCheck();
         }
         while(vibCheck > 0){
@@ -60,6 +60,7 @@ void loop() {
             vibCheck();
         }
         // Done Alert
+        // ^ whill need moved up inside while loop or something. It will not trigger properly & will send a No-Start
         return;
     }
     return;
