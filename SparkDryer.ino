@@ -38,11 +38,11 @@ void setup()
 void loop() {
 	// Door opens
     val = digitalRead(doorPin);
-    if (val == LOW){
+    if (val == HIGH){
         door++;
     }
     // Door closes after being opened (checked by 'door' variable set to 1 above)
-    else if (val == HIGH && door > 0){
+    else if (val == LOW && door > 0){
     	door = 0;
     	weightCheck();
     }
